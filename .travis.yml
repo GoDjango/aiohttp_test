@@ -1,0 +1,19 @@
+language: python
+sudo: false
+cache: pip
+
+python:
+  - "3.5"
+
+install:
+  - pip install -r requirements.txt
+  - pip install coverage
+
+script:
+  - coverage run tests.py
+  - coverage report -m --rcfile=.coveragerc
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
