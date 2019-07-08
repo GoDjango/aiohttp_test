@@ -40,11 +40,19 @@ async def news(request):
     return web.Response(text=str(data))
 
 
-if __name__ == '__main__':
-    app = web.Application()
-
-    app.add_routes([web.get('/', news),
+async def setup_routes(app):
+    app.router.add_routes([web.get('/', news),
                     web.get('/{id}', news),
                     ])
 
+
+async def create_app():
+    app = web.Application()
+    await setup_routes(app)
+
+    return app
+
+
+if __name__ == '__main__':
+    app = create_app()
     web.run_app(app)

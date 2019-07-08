@@ -1,8 +1,9 @@
 import json
-from aiohttp import web
+
 from aiohttp.test_utils import TestServer, TestClient, loop_context
 
-from main import news
+from main import create_app
+
 
 with open('news.json') as f:
     data = json.load(f)
@@ -10,14 +11,10 @@ with open('news.json') as f:
     DELETED_NEWS = list(filter(lambda k: k['deleted'] == True, data['news']))[0]['id']
     MAX_ID_NEWS = data['news'][-1]['id']
 
+
 with loop_context() as loop:
-    app = web.Application()
-
-    app.add_routes([web.get('/', news),
-                    web.get('/{id}', news),
-                    ])
-
-    client = TestClient(TestServer(app), loop=loop)
+    app = loop.run_until_complete(create_app())
+    client = TestClient(TestServer(app=app), loop=loop)
     loop.run_until_complete(client.start_server())
 
     async def test_get_route():
