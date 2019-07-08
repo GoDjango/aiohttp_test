@@ -25,7 +25,7 @@ with loop_context() as loop:
         assert resp.status == 200
         resp = await client.get("/%g" % DELETED_NEWS)
         assert resp.status == 404
-        resp = await client.get("/%g" % MAX_ID_NEWS + 1)
+        resp = await client.get("/%g" % (MAX_ID_NEWS + 1))
         assert resp.status == 404
 
     loop.run_until_complete(test_get_route())
