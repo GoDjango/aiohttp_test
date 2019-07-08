@@ -1,0 +1,10 @@
+# Config file .coveragerc
+
+[report]
+include =
+    */aiohttp_test_mission/*
+
+
+# skip_covered = True
+fail_under = 25
+precision = 2
